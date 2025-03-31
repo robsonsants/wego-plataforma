@@ -70,9 +70,9 @@ wego-eventos/
 ├── eventos_categorizados.json # Dados dos eventos organizados por categoria
 ├── gerar_eventos_json.py # Script de conversão CSV → JSON
 ├── templates/
-│   └── index.html       # HTML principal renderizado dinamicamente
+│   └── index.html      
 ├── static/
-│   └── style.css        # Estilos minimalistas para a aplicação
+│   └── style.css        
 └── csv/                 # Arquivos CSV gerados via scraping
 ```
 
