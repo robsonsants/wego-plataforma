@@ -1,0 +1,59 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ff4b2b;
+    color: #ffffff;
+    margin: 0;
+    padding: 40px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.evento {
+    background-color: #ffffff;
+    color: #333333;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.evento img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+button, input[type="number"] {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #ff4b2b;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #e03e20;
+}
+
+form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>WEGo - Eventos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #ff4b2b;
+            font-family: Arial, sans-serif;
+            color: white;
+            margin: 0;
+            padding: 2rem;
+        }
+        .botoes-categorias, .top-bar {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .botoes-categorias a {
+            text-decoration: none;
+        }
+        .botoes-categorias button {
+            background-color: white;
+            color: #ff4b2b;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .eventos-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .evento {
+            background-color: white;
+            color: black;
+            border-radius: 15px;
+            padding: 1rem;
+            width: 300px;
+            min-height: 500px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+        }
+        .evento.destaque-alto {
+            transform: scale(1.1);
+            border: 3px solid gold;
+        }
+        img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .estrelas {
+            color: gold;
+            font-size: 1.2em;
+        }
+        #filtro {
+            display: block;
+            margin: 0 auto 20px auto;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            width: 300px;
+        }
+        h1 {
+            cursor: pointer;
+        }
+        .mensagem-sucesso {
+            background-color: #fff;
+            color: #333;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            border-radius: 10px;
+            transition: opacity 1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <h1 onclick="carregarEventosEmDestaque()">WEGO - Eventos</h1>
+    </div>
+
+    {% if mensagem %}
+        <div id="mensagem" class="mensagem-sucesso">
+            {{ mensagem }}
+        </div>
+    {% endif %}
+
+    <input type="text" id="filtro" placeholder="Buscar eventos por nome..." onkeyup="filtrarEventos()">
+
+    <div class="botoes-categorias">
+        {% for cat in categorias %}
+            <a href="/ver_categoria/{{ cat }}"><button>{{ cat }}</button></a>
+        {% endfor %}
+    </div>
+
+    <div id="titulo-eventos">
+        <h2>Eventos em destaque</h2>
+    </div>
+
+    <div id="eventos-container" class="eventos-grid">
+        {% for evento in eventos %}
+            <div class="evento {% if evento.media_avaliacoes() >= 4.5 %}destaque-alto{% endif %}">
+                <h3>{{ evento.titulo }}</h3>
+                <p><strong>Data:</strong> {{ evento.data }}</p>
+                <p><strong>Local:</strong> {{ evento.local }}</p>
+                {% if evento.imagem_base64 %}
+                    <img src="{{ evento.imagem_base64 }}" alt="Imagem do Evento" loading="lazy">
+                {% endif %}
+                {% if not usuario.participou_do_evento(evento) %}
+                <form action="/participar" method="post">
+                    <input type="hidden" name="titulo" value="{{ evento.titulo }}">
+                    <button type="submit">Participar</button>
+                </form>
+                {% endif %}
+                {% if usuario.participou_do_evento(evento) %}
+                    <form action="/avaliar" method="post">
+                        <input type="hidden" name="titulo" value="{{ evento.titulo }}">
+                        <label>Avalie (1 a 5):</label>
+                        <input type="number" name="nota" min="1" max="5" required>
+                        <button type="submit">Enviar Avaliação</button>
+                    </form>
+                {% endif %}
+                <p><strong>Média de Avaliações:</strong> 
+                    <span class="estrelas">
+                        {% for i in range(1, 6) %}
+                            {% if i <= evento.media_avaliacoes()|round(0, 'floor') %}★{% else %}☆{% endif %}
+                        {% endfor %}
+                    </span>
+                    ({{ '%.1f' % evento.media_avaliacoes() }})
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function filtrarEventos() {
+            const termo = document.getElementById('filtro').value.toLowerCase();
+            const eventos = document.querySelectorAll('.evento');
+            eventos.forEach(evento => {
+                const titulo = evento.querySelector('h3').textContent.toLowerCase();
+                evento.style.display = titulo.includes(termo) ? 'block' : 'none';
+            });
+        }
+
+        function carregarEventosEmDestaque() {
+            window.location.href = "/";
+        }
+
+        window.onload = function () {
+            const mensagem = document.getElementById("mensagem");
+            if (mensagem) {
+                setTimeout(() => {
+                    mensagem.style.opacity = 0;
+                    setTimeout(() => mensagem.style.display = "none", 1000);
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
