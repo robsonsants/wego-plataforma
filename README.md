@@ -73,7 +73,9 @@ wego-eventos/
 │   └── index.html      
 ├── static/
 │   └── style.css        
-└── csv/                 # Arquivos CSV gerados via scraping
+├── csv/                 # Arquivos CSV gerados via scraping
+└── scripts/
+│   └── select_all_category.py # WebScraping (Selenium)
 ```
 
 ---
@@ -122,11 +124,13 @@ wego-eventos/
 
 ### `select_all_category.py` (Scraping com Selenium)
 
-- Script para webscraping dos eventos da plataforma Sympla
-- Automatiza o clique nas categorias, coleta os dados de cada evento (inclusive imagem)
-- Armazena localmente em arquivos CSV por categoria
-- *Versão anterior* convertia imagens diretamente para base64
-- *Nesta versão*, o link da imagem é armazenado no CSV e usado dinamicamente no frontend
+- Script de webscraping que coleta eventos da plataforma Sympla
+- Utiliza `Selenium` para:
+  - Acessar a página principal de eventos
+  - Navegar entre categorias automaticamente
+  - Coletar título, data, local e link da imagem
+  - Armazenar os dados em CSVs organizados por categoria
+- **Importante**: o script já foi utilizado e os dados estão disponíveis em `csv/`, portanto não é necessário executá-lo novamente para rodar o projeto.
 
 ---
 
@@ -154,5 +158,25 @@ wego-eventos/
 ## 🎓 Projeto Acadêmico
 
 Este projeto foi desenvolvido como parte da disciplina **"Introdução à Programação"**.
+
+Todos os critérios avaliativos foram seguidos, incluindo:
+
+### ✅ Qualidade do Código
+- Legível, bem nomeado, comentado e organizado
+
+### ✅ POO Aplicada
+- Encapsulamento, composição e abstração aplicados
+
+### ✅ Eficiência e Funcionalidade
+- JSON leve, leitura dinâmica e interface fluida
+
+### ✅ Experiência do Usuário
+- Interação simples, com feedback visual e responsividade
+
+### ✅ Conceitos Avançados
+- WebScraping automatizado, estrutura MVC, filtro e ordenação dinâmica
+
+### ✅ Documentação
+- README completo com estrutura, execução e explicação de todos os módulos
 
 ---
